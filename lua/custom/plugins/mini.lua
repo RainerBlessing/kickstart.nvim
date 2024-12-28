@@ -34,9 +34,10 @@ return {
       }
 
       -- Mini Starter: Startbildschirm
-      require('mini.starter').setup {
-        evaluate_single = true, -- Automatisches Starten bei einem Eintrag
-      }
+      -- NOTE: clashes with snacks dashboard
+      --require('mini.starter').setup {
+      --  evaluate_single = true, -- Automatisches Starten bei einem Eintrag
+      --}
 
       -- Mini Tabline: Minimalistische Tab-Linie
       require('mini.tabline').setup {
@@ -48,6 +49,8 @@ return {
 
       require('mini.files').setup()
       require('mini.icons').setup()
+
+      require('mini.ai').setup()
       vim.keymap.set('n', '-', function()
         MiniFiles.open(vim.api.nvim_buf_get_name(0))
       end)
