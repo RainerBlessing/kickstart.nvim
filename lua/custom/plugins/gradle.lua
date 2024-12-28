@@ -1,0 +1,3 @@
+return {
+  'tfnico/vim-gradle',
+}
