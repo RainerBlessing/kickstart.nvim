@@ -13,6 +13,24 @@ return {
         endpoint = 'http://127.0.0.1:11434/v1',
         model = 'incept5/llama3.1-claude:latest',
       },
+      ---@type AvanteProvider
+      claude = {
+        endpoint = os.getenv 'AVANTE_ANTHROPIC_ENDPOINT' or 'https://api.anthropic.com',
+        model = 'claude-3-5-sonnet-20240620',
+        timeout = 30000, -- Timeout in milliseconds
+        temperature = 0,
+        max_tokens = 4096,
+        ['local'] = false,
+      },
+      ---@type AvanteProvider
+      openai = {
+        endpoint = os.getenv 'AVANTE_OPENAI_ENDPOINT' or 'https://api.openai.com/v1',
+        model = 'gpt-4o',
+        timeout = 30000, -- Timeout in milliseconds
+        temperature = 0,
+        max_tokens = 4096,
+        ['local'] = false,
+      },
     },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
