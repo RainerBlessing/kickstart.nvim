@@ -51,9 +51,6 @@ return {
       require('mini.icons').setup()
 
       require('mini.ai').setup()
-      vim.keymap.set('n', '-', function()
-        MiniFiles.open(vim.api.nvim_buf_get_name(0))
-      end)
     end,
   },
 }

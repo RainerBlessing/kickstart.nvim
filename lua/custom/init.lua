@@ -7,20 +7,6 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
---require('lspconfig').pyright.setup {
---  settings = {
---    python = {
---      pythonPath = '.venv/bin/python',
---      venvPath = './',
---      venv = '.venv',
---      analysis = {
---        autoSearchPaths = true,
---        useLibraryCodeForTypes = true,
---        diagnosticMode = 'workspace',
---      },
---    },
---  },
---}
 -- Set running linters on buffer save
 vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
   callback = function()
@@ -55,16 +41,14 @@ require('lspconfig').pylsp.setup {
     },
   },
 }
-require('lspconfig').ruff_lsp.setup {
-  cmd = { venv .. '/bin/ruff' },
+
+-- C++ LSP-Konfiguration für NixOS
+require('lspconfig').clangd.setup {
+  cmd = { 'clangd', '--background-index' },
+  filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+  root_dir = function(fname)
+    return require('lspconfig').util.root_pattern('compile_commands.json', 'compile_flags.txt', '.git')(fname) or vim.fn.getcwd()
+  end,
 }
-require('lspconfig').null_ls.setup {
-  sources = {
-    require('null-ls').builtins.diagnostics.ruff.with {
-      command = { venv .. '/bin/ruff' },
-    },
-    require('none-ls').builtins.diagnostics.ruff.with {
-      command = { venv .. '/bin/ruff' },
-    },
-  },
-}
+
+require('auto-create-directory').setup()
