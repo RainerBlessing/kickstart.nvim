@@ -1,6 +1,9 @@
 -- Format on save and linters
+-- DISABLED: Incompatible with Neovim 0.11.4+ due to internal API changes
+-- Using conform.nvim for formatting instead
 return {
   'nvimtools/none-ls.nvim',
+  enabled = false, -- Disabled due to compatibility issues with Neovim 0.11.4
   dependencies = {
     'nvimtools/none-ls-extras.nvim',
     'jayp0521/mason-null-ls.nvim', -- ensure dependencies are installed

@@ -28,19 +28,31 @@ require('lint').linters.pylint.args = {
   end,
 }
 
-local venv = vim.fn.trim(vim.fn.system 'poetry env info --path')
-require('lspconfig').pylsp.setup {
-  cmd = { venv .. '/bin/pylsp' },
-  settings = {
-    pylsp = {
-      plugins = {
-        jedi = {
-          environment = venv,
+-- Python LSP-Konfiguration mit Poetry (wenn verfügbar)
+local poetry_venv = vim.fn.system 'poetry env info --path 2>/dev/null'
+if vim.v.shell_error == 0 and poetry_venv ~= '' then
+  local venv = vim.fn.trim(poetry_venv)
+  if vim.fn.isdirectory(venv) == 1 then
+    require('lspconfig').pylsp.setup {
+      cmd = { venv .. '/bin/pylsp' },
+      settings = {
+        pylsp = {
+          plugins = {
+            jedi = {
+              environment = venv,
+            },
+          },
         },
       },
-    },
-  },
-}
+    }
+  else
+    -- Fallback to system pylsp
+    require('lspconfig').pylsp.setup {}
+  end
+else
+  -- Fallback to system pylsp
+  require('lspconfig').pylsp.setup {}
+end
 
 -- C++ LSP-Konfiguration für NixOS
 require('lspconfig').clangd.setup {

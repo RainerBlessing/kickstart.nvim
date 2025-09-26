@@ -5,31 +5,37 @@ return {
   version = false, -- set this if you want to always pull the latest change
   opts = {
     provider = 'ollama',
-    vendors = {
-      ---@type AvanteProvider
+    auto_suggestions_provider = 'ollama',
+    providers = {
       ollama = {
-        __inherited_from = 'openai',
-        api_key_name = '',
-        endpoint = 'http://127.0.0.1:11434/v1',
+        endpoint = 'http://127.0.0.1:11434',
         model = 'incept5/llama3.1-claude:latest',
+        timeout = 30000,
+        extra_request_body = {
+          options = {
+            temperature = 0.75,
+            num_ctx = 20480,
+            keep_alive = '5m',
+          },
+        },
       },
-      ---@type AvanteProvider
       claude = {
         endpoint = os.getenv 'AVANTE_ANTHROPIC_ENDPOINT' or 'https://api.anthropic.com',
         model = 'claude-3-5-sonnet-20240620',
-        timeout = 30000, -- Timeout in milliseconds
-        temperature = 0,
-        max_tokens = 4096,
-        ['local'] = false,
+        timeout = 30000,
+        extra_request_body = {
+          temperature = 0,
+          max_tokens = 4096,
+        },
       },
-      ---@type AvanteProvider
       openai = {
         endpoint = os.getenv 'AVANTE_OPENAI_ENDPOINT' or 'https://api.openai.com/v1',
         model = 'gpt-4o',
-        timeout = 30000, -- Timeout in milliseconds
-        temperature = 0,
-        max_tokens = 4096,
-        ['local'] = false,
+        timeout = 30000,
+        extra_request_body = {
+          temperature = 0,
+          max_tokens = 4096,
+        },
       },
     },
   },

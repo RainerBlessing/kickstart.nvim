@@ -24,7 +24,7 @@ local config = {
     '--add-opens',
     'java.base/java.lang=ALL-UNNAMED',
     '-jar',
-    jdtls_path .. '/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.2.1200.v20240924-2302.jar',
+    vim.fn.glob(jdtls_path .. '/plugins/org.eclipse.equinox.launcher_*.jar'),
     '-configuration',
     jdtls_path .. '/config_linux',
     '-data',
@@ -34,6 +34,14 @@ local config = {
   settings = {
     java = {},
   },
+  on_attach = function(client, bufnr)
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+  end,
 }
 
 return config
